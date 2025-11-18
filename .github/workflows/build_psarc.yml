@@ -1,0 +1,232 @@
+name: Build PSARC
+
+on:
+  # Trigger on push to build/psarc branch
+  push:
+    branches:
+      - build/psarc
+  
+  # Allow manual trigger from Actions tab
+  workflow_dispatch:
+
+# Set permissions for creating releases
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    name: Build on Windows
+    runs-on: windows-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      
+      - name: Verify required files
+        shell: pwsh
+        run: |
+          Write-Host "Checking for required files..."
+          $files = @("White_Flame.wav", "song.xml", "arrangement_lead.xml", "arrangement_rhythm.xml")
+          foreach ($file in $files) {
+            if (Test-Path $file) {
+              Write-Host "✓ Found: $file"
+            } else {
+              Write-Host "✗ Missing: $file"
+              exit 1
+            }
+          }
+      
+      - name: Run Windows build script
+        shell: pwsh
+        run: |
+          .\build_psarc.ps1
+        continue-on-error: true
+      
+      - name: Check build output
+        shell: pwsh
+        run: |
+          if (Test-Path "dist/White_Flame_Babymetal.psarc") {
+            Write-Host "Build successful - PSARC file created"
+            $size = (Get-Item "dist/White_Flame_Babymetal.psarc").Length / 1MB
+            Write-Host "File size: $([math]::Round($size, 2)) MB"
+          } else {
+            Write-Host "Build did not produce PSARC file"
+            Write-Host "This is expected if Rocksmith Toolkit is not installed"
+            Write-Host "Creating placeholder for artifact upload"
+            New-Item -ItemType Directory -Force -Path dist | Out-Null
+            "Build requires manual completion - see README_packaging.md" | Out-File -FilePath "dist/BUILD_REQUIRED.txt"
+          }
+      
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: psarc-windows
+          path: dist/
+          retention-days: 90
+      
+      - name: Prepare release asset
+        id: prep_release
+        shell: pwsh
+        run: |
+          if (Test-Path "dist/White_Flame_Babymetal.psarc") {
+            echo "has_psarc=true" >> $env:GITHUB_OUTPUT
+            echo "asset_path=dist/White_Flame_Babymetal.psarc" >> $env:GITHUB_OUTPUT
+          } else {
+            echo "has_psarc=false" >> $env:GITHUB_OUTPUT
+          }
+      
+      - name: Create or update draft release
+        if: steps.prep_release.outputs.has_psarc == 'true'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v-cdlc-latest
+          name: v-cdlc (auto)
+          draft: true
+          prerelease: false
+          body: |
+            # Babymetal - White Flame CDLC
+            
+            Automatically built Rocksmith 2014 Remastered CDLC package.
+            
+            ## Details
+            - **Song:** White Flame
+            - **Artist:** Babymetal
+            - **Album:** The Other One (2023)
+            - **Tempo:** 176 BPM
+            - **Tuning:** Eb standard (half-step down)
+            - **Arrangements:** Lead, Rhythm
+            
+            ## Installation
+            1. Download `White_Flame_Babymetal.psarc`
+            2. Copy to your Rocksmith 2014 DLC folder:
+               - Windows: `Steam\steamapps\common\Rocksmith2014\dlc`
+            3. Launch Rocksmith 2014
+            4. Look for "White Flame" by Babymetal in your song list
+            
+            ## Notes
+            - Built from branch: `build/psarc`
+            - Workflow run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            
+            This is a draft release. Review and publish when ready.
+          files: |
+            dist/White_Flame_Babymetal.psarc
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build-linux:
+    name: Build on Linux
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      
+      - name: Install Mono
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y mono-complete
+          mono --version
+      
+      - name: Install FFmpeg (optional)
+        run: |
+          sudo apt-get install -y ffmpeg
+          ffmpeg -version
+      
+      - name: Verify required files
+        run: |
+          echo "Checking for required files..."
+          for file in White_Flame.wav song.xml arrangement_lead.xml arrangement_rhythm.xml; do
+            if [ -f "$file" ]; then
+              echo "✓ Found: $file"
+            else
+              echo "✗ Missing: $file"
+              exit 1
+            fi
+          done
+      
+      - name: Make build script executable
+        run: chmod +x build_psarc.sh
+      
+      - name: Run Linux build script
+        run: ./build_psarc.sh
+        continue-on-error: true
+      
+      - name: Check build output
+        run: |
+          if [ -f "dist/White_Flame_Babymetal.psarc" ]; then
+            echo "Build successful - PSARC file created"
+            size=$(stat -c%s "dist/White_Flame_Babymetal.psarc")
+            size_mb=$(echo "scale=2; $size / 1048576" | bc)
+            echo "File size: ${size_mb} MB"
+          else
+            echo "Build did not produce PSARC file"
+            echo "This is expected if Rocksmith Toolkit is not installed"
+            echo "Creating placeholder for artifact upload"
+            mkdir -p dist
+            echo "Build requires manual completion - see README_packaging.md" > dist/BUILD_REQUIRED.txt
+          fi
+      
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: psarc-linux
+          path: dist/
+          retention-days: 90
+      
+      - name: Prepare release asset
+        id: prep_release
+        run: |
+          if [ -f "dist/White_Flame_Babymetal.psarc" ]; then
+            echo "has_psarc=true" >> $GITHUB_OUTPUT
+            echo "asset_path=dist/White_Flame_Babymetal.psarc" >> $GITHUB_OUTPUT
+          else
+            echo "has_psarc=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Create or update draft release
+        if: steps.prep_release.outputs.has_psarc == 'true'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v-cdlc-latest
+          name: v-cdlc (auto)
+          draft: true
+          prerelease: false
+          body: |
+            # Babymetal - White Flame CDLC
+            
+            Automatically built Rocksmith 2014 Remastered CDLC package.
+            
+            ## Details
+            - **Song:** White Flame
+            - **Artist:** Babymetal
+            - **Album:** The Other One (2023)
+            - **Tempo:** 176 BPM
+            - **Tuning:** Eb standard (half-step down)
+            - **Arrangements:** Lead, Rhythm
+            
+            ## Installation
+            1. Download `White_Flame_Babymetal.psarc`
+            2. Copy to your Rocksmith 2014 DLC folder:
+               - Linux: `~/.steam/steam/steamapps/common/Rocksmith2014/dlc`
+            3. Launch Rocksmith 2014
+            4. Look for "White Flame" by Babymetal in your song list
+            
+            ## Notes
+            - Built from branch: `build/psarc`
+            - Workflow run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            
+            This is a draft release. Review and publish when ready.
+          files: |
+            dist/White_Flame_Babymetal.psarc
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<song>
+  <title>White Flame</title>
+  <arrangement>Lead</arrangement>
+  <part>1</part>
+  <offset>0.000</offset>
+  <centOffset>0.0</centOffset>
+  <songLength>242.000</songLength>
+  <songNameSort>White Flame</songNameSort>
+  <startBeat>0.000</startBeat>
+  <averageTempo>176.000</averageTempo>
+  <tuning ref="Standard E">
+    <string0>-1</string0>
+    <string1>-1</string1>
+    <string2>-1</string2>
+    <string3>-1</string3>
+    <string4>-1</string4>
+    <string5>-1</string5>
+  </tuning>
+  <artistName>Babymetal</artistName>
+  <albumName>The Other One</albumName>
+  <albumYear>2023</albumYear>
+  <albumNameSort>Other One</albumNameSort>
+  <artistNameSort>Babymetal</artistNameSort>
+  <arrangements>
+    <arrangement name="Lead" bonusArrangement="0" represent="1" routeMask="1" priority="1" metronome="0" />
+    <arrangement name="Rhythm" bonusArrangement="0" represent="0" routeMask="2" priority="2" metronome="0" />
+  </arrangements>
+  <phrases>
+    <phrase maxDifficulty="0" name="COUNT" />
+    <phrase maxDifficulty="0" name="Intro" />
+    <phrase maxDifficulty="0" name="Verse" />
+    <phrase maxDifficulty="0" name="Chorus" />
+    <phrase maxDifficulty="0" name="Bridge" />
+    <phrase maxDifficulty="0" name="Solo" />
+    <phrase maxDifficulty="0" name="Outro" />
+    <phrase maxDifficulty="0" name="END" />
+  </phrases>
+  <phraseIterations>
+    <phraseIteration time="0.000" phraseId="0" />
+    <phraseIteration time="1.364" phraseId="1" />
+    <phraseIteration time="13.636" phraseId="2" />
+    <phraseIteration time="40.909" phraseId="3" />
+    <phraseIteration time="68.182" phraseId="2" />
+    <phraseIteration time="95.455" phraseId="3" />
+    <phraseIteration time="122.727" phraseId="4" />
+    <phraseIteration time="150.000" phraseId="5" />
+    <phraseIteration time="177.273" phraseId="3" />
+    <phraseIteration time="204.545" phraseId="6" />
+    <phraseIteration time="240.636" phraseId="7" />
+  </phraseIterations>
+  <linkedDiffs />
+  <phraseProperties />
+  <chordTemplates />
+  <fretHandMuteTemplates />
+  <ebeats>
+    <!-- 176 BPM = 60/176 = 0.34091 seconds per beat -->
+    <ebeat time="0.000" measure="-1" />
+    <ebeat time="1.364" measure="0" />
+  </ebeats>
+  <sections>
+    <section name="noguitar" number="1" startTime="0.000" />
+    <section name="intro" number="1" startTime="1.364" />
+    <section name="verse" number="1" startTime="13.636" />
+    <section name="chorus" number="1" startTime="40.909" />
+    <section name="verse" number="2" startTime="68.182" />
+    <section name="chorus" number="2" startTime="95.455" />
+    <section name="bridge" number="1" startTime="122.727" />
+    <section name="solo" number="1" startTime="150.000" />
+    <section name="chorus" number="3" startTime="177.273" />
+    <section name="outro" number="1" startTime="204.545" />
+  </sections>
+  <events />
+  <tones>
+    <tone time="0.000" id="0" name="Distortion" />
+  </tones>
+  <dnaSps />
+  <newLinkedDiffs />
+</song>

@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - build/psarc
+      - copilot/buildpsarc
   workflow_dispatch:
 
 permissions:

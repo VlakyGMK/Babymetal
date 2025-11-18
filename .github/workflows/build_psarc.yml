@@ -1,0 +1,132 @@
+name: Build PSARC
+
+on:
+  push:
+    branches:
+      - build/psarc
+      - copilot/buildpsarc
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    name: Build PSARC (Windows)
+    runs-on: windows-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Verify required files
+        shell: pwsh
+        run: |
+          Write-Host "Checking for required files..."
+          $files = @("White_Flame.wav", "song.xml", "arrangement_lead.xml", "arrangement_rhythm.xml")
+          foreach ($file in $files) {
+            if (Test-Path $file) {
+              Write-Host "✓ Found: $file" -ForegroundColor Green
+            } else {
+              Write-Host "✗ Missing: $file" -ForegroundColor Red
+              exit 1
+            }
+          }
+      
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      
+      - name: Run build script
+        shell: pwsh
+        run: |
+          ./build_psarc.ps1 -OutputDir ./output
+      
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: psarc-build-windows
+          path: |
+            output/
+            *.xml
+            build_manifest.json
+          retention-days: 30
+      
+      - name: Create/Update Release
+        if: success()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: pwsh
+        run: |
+          Write-Host "Preparing release assets..."
+          
+          # Note: For actual .psarc file, it would be uploaded here
+          # For now, we upload the manifest and XML files as documentation
+          
+          $releaseTag = "v-cdlc-auto"
+          $releaseName = "CDLC Build (Auto)"
+          
+          # Check if release exists
+          $releaseExists = gh release view $releaseTag 2>$null
+          
+          if ($LASTEXITCODE -eq 0) {
+            Write-Host "Release $releaseTag exists, updating..."
+            # Upload/update assets
+            if (Test-Path "output/build_manifest.json") {
+              gh release upload $releaseTag "output/build_manifest.json" --clobber
+            }
+          } else {
+            Write-Host "Creating new draft release $releaseTag..."
+            gh release create $releaseTag --draft --title "$releaseName" --notes "Automated CDLC build artifacts for White Flame`n`nTo build the complete .psarc locally, see README_packaging.md"
+            
+            # Upload assets
+            if (Test-Path "output/build_manifest.json") {
+              gh release upload $releaseTag "output/build_manifest.json"
+            }
+          }
+
+  build-linux:
+    name: Build PSARC (Linux)
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Verify required files
+        run: |
+          echo "Checking for required files..."
+          for file in White_Flame.wav song.xml arrangement_lead.xml arrangement_rhythm.xml; do
+            if [ -f "$file" ]; then
+              echo "✓ Found: $file"
+            else
+              echo "✗ Missing: $file"
+              exit 1
+            fi
+          done
+      
+      - name: Setup Mono
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y mono-complete
+      
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      
+      - name: Run build script
+        run: |
+          chmod +x build_psarc.sh
+          ./build_psarc.sh ./output
+      
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: psarc-build-linux
+          path: |
+            output/
+            *.xml
+            build_manifest.json
+          retention-days: 30

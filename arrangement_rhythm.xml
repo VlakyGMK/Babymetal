@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<song version="8">
+  <title>White Flame</title>
+  <arrangement>Rhythm</arrangement>
+  <part>1</part>
+  <offset>0.0</offset>
+  <centOffset>0.0</centOffset>
+  <songLength>248.0</songLength>
+  <lastConversionDateTime>01-01-2024 12-00</lastConversionDateTime>
+  <startBeat>0.0</startBeat>
+  <averageTempo>176.0</averageTempo>
+  <tuning>
+    <string0>-1</string0>
+    <string1>-1</string1>
+    <string2>-1</string2>
+    <string3>-1</string3>
+    <string4>-1</string4>
+    <string5>-1</string5>
+  </tuning>
+  <capo>0</capo>
+  <artistName>Babymetal</artistName>
+  <albumName>The Other One</albumName>
+  <albumYear>2023</albumYear>
+  <crowdSpeed>1</crowdSpeed>
+  <arrangement>Rhythm</arrangement>
+  <XBlockBytes />
+  <masterID_RDV>0</masterID_RDV>
+  <persistentID>{RHYTHM-GUID-87654321-4321-4321-4321-CBA987654321}</persistentID>
+  <ebeats>
+    <ebeat time="0.000" measure="-1" />
+    <ebeat time="1.364" measure="1" />
+    <ebeat time="1.705" measure="2" />
+    <ebeat time="2.045" measure="3" />
+    <ebeat time="2.386" measure="4" />
+  </ebeats>
+  <phrases>
+    <phrase maxDifficulty="0" name="intro" solo="0" disparity="0" ignore="0" />
+    <phrase maxDifficulty="0" name="verse" solo="0" disparity="0" ignore="0" />
+    <phrase maxDifficulty="0" name="chorus" solo="0" disparity="0" ignore="0" />
+    <phrase maxDifficulty="0" name="bridge" solo="0" disparity="0" ignore="0" />
+    <phrase maxDifficulty="0" name="outro" solo="0" disparity="0" ignore="0" />
+  </phrases>
+  <phraseIterations>
+    <phraseIteration time="0.000" phraseId="0" />
+    <phraseIteration time="20.000" phraseId="1" />
+    <phraseIteration time="80.000" phraseId="2" />
+    <phraseIteration time="140.000" phraseId="3" />
+    <phraseIteration time="200.000" phraseId="4" />
+  </phraseIterations>
+  <newLinkedDiffs />
+  <linkedDiffs />
+  <phraseProperties />
+  <chordTemplates />
+  <fretHandMuteTemplates />
+  <levels>
+    <level difficulty="0">
+      <notes>
+        <note time="1.364" linkNext="0" accent="0" bend="0" fret="0" hammerOn="0" harmonic="0" hopo="0" ignore="0" leftHand="-1" mute="0" palmMute="0" pluck="-1" pullOff="0" slap="-1" slideTo="-1" string="4" sustain="0.000" tremolo="0" harmonicPinch="0" pickDirection="0" rightHand="-1" slideUnpitchTo="-1" tap="0" vibrato="0" />
+        <note time="2.045" linkNext="0" accent="0" bend="0" fret="2" hammerOn="0" harmonic="0" hopo="0" ignore="0" leftHand="-1" mute="0" palmMute="0" pluck="-1" pullOff="0" slap="-1" slideTo="-1" string="4" sustain="0.000" tremolo="0" harmonicPinch="0" pickDirection="0" rightHand="-1" slideUnpitchTo="-1" tap="0" vibrato="0" />
+        <note time="2.727" linkNext="0" accent="0" bend="0" fret="3" hammerOn="0" harmonic="0" hopo="0" ignore="0" leftHand="-1" mute="0" palmMute="0" pluck="-1" pullOff="0" slap="-1" slideTo="-1" string="4" sustain="0.000" tremolo="0" harmonicPinch="0" pickDirection="0" rightHand="-1" slideUnpitchTo="-1" tap="0" vibrato="0" />
+      </notes>
+      <chords />
+      <anchors>
+        <anchor fret="0" width="4" time="0.000" />
+      </anchors>
+      <handShapes />
+    </level>
+  </levels>
+  <transcriptionTrack>
+    <notes />
+    <chords />
+  </transcriptionTrack>
+  <sections>
+    <section name="intro" number="1" startTime="0.000" />
+    <section name="verse" number="1" startTime="20.000" />
+    <section name="chorus" number="1" startTime="80.000" />
+    <section name="bridge" number="1" startTime="140.000" />
+    <section name="outro" number="1" startTime="200.000" />
+  </sections>
+  <events />
+  <songLength>248.0</songLength>
+  <arrangementProperties>
+    <represent>1</represent>
+    <bonusArr>0</bonusArr>
+    <standardTuning>0</standardTuning>
+    <nonStandardChords>0</nonStandardChords>
+    <barreChords>0</barreChords>
+    <powerChords>0</powerChords>
+    <dropDPower>0</dropDPower>
+    <openChords>0</openChords>
+    <fingerPicking>0</fingerPicking>
+    <pickDirection>0</pickDirection>
+    <doubleStops>0</doubleStops>
+    <palmMutes>0</palmMutes>
+    <harmonics>0</harmonics>
+    <pinchHarmonics>0</pinchHarmonics>
+    <hopo>0</hopo>
+    <tremolo>0</tremolo>
+    <slides>0</slides>
+    <unpitchedSlides>0</unpitchedSlides>
+    <bends>0</bends>
+    <tapping>0</tapping>
+    <vibrato>0</vibrato>
+    <fretHandMutes>0</fretHandMutes>
+    <slapPop>0</slapPop>
+    <twoFingerPicking>0</twoFingerPicking>
+    <fifthsAndOctaves>0</fifthsAndOctaves>
+    <syncopation>0</syncopation>
+    <bassPick>0</bassPick>
+    <sustain>0</sustain>
+    <pathLead>0</pathLead>
+    <pathRhythm>1</pathRhythm>
+    <pathBass>0</pathBass>
+  </arrangementProperties>
+  <tones />
+</song>

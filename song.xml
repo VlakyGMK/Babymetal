@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<song>
+  <title>White Flame</title>
+  <arrangement>白炎</arrangement>
+  <part>1</part>
+  <offset>0.0</offset>
+  <songLength>248.0</songLength>
+  <startBeat>0.0</startBeat>
+  <averageTempo>176.0</averageTempo>
+  <tuning>
+    <string0>-1</string0>
+    <string1>-1</string1>
+    <string2>-1</string2>
+    <string3>-1</string3>
+    <string4>-1</string4>
+    <string5>-1</string5>
+  </tuning>
+  <capo>0</capo>
+  <artistName>Babymetal</artistName>
+  <albumName>The Other One</albumName>
+  <albumYear>2023</albumYear>
+  <crowdSpeed>1</crowdSpeed>
+</song>
